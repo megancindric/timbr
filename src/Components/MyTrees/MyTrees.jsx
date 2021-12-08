@@ -1,15 +1,9 @@
-import react, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
-const TreeDisplay = (props) => {
+const MyTrees = (props) => {
 
     const [trees, setTrees] = useState([])
-
-    const getAllTrees = async () => {
-        let response = await axios.get('http://127.0.0.1:8000/api/trees/all/')
-        console.log(response.data)
-        setTrees(response.data)
-    }
 
     const getUserTrees = async () => {
         let response = await axios.get('http://127.0.0.1:8000/api/trees/', {headers:{Authorization: "Bearer " + localStorage.getItem('token')}})
@@ -18,22 +12,21 @@ const TreeDisplay = (props) => {
     }
 
     useEffect(()=>{
-        getAllTrees();
+        getUserTrees();
     }, ([]))
 
     return (
         <div>
-            <button onClick={getAllTrees}>Get All Trees</button>
-            <button onClick={getUserTrees}>Get User's Trees</button>
+            {(props.currentUser) ? (<div><h2>This is {props.currentUser.first_name}'s trees</h2> 
             <ul>
                 {trees.map((tree)=>{
                     return (
                     <li>{tree.common_name}  ~~~  {tree.scientific_name}</li>
                     )
                 })}
-            </ul>
+            </ul></div>) : (<h4>No user signed in...</h4>)}
         </div>
     )
 
 }
-export default TreeDisplay
+export default MyTrees

@@ -1,4 +1,4 @@
-import react, {useState} from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
@@ -21,12 +21,7 @@ const Login = (props) => {
             props.setCurrentUserId(currentUserId)
         }
 
-        const handleReset = (e) => {
-            console.log("user logged out!");
-            localStorage.setItem('token', null);
-            props.setCurrentUserId(null)
-            document.getElementById("registrationForm").reset();
-        }
+
 
         return(
             <div>
@@ -37,7 +32,6 @@ const Login = (props) => {
                 <input type="text" onChange={(e)=> setPassword(e.target.value)}/>
                 <button type="submit">Log In!</button>
             </form>  
-            <button onClick={handleReset}>Log Out</button>
 
             </div>
            
